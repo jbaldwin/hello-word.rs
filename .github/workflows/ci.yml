@@ -18,7 +18,6 @@ jobs:
             gcc
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
           source $HOME/.cargo/env
-          echo $HOME
       - name: Build and Test hello_world
         run: |
           source $HOME/.cargo/env
