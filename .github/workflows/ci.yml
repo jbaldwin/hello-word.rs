@@ -1,0 +1,33 @@
+name: build
+
+on: [pull_request]
+
+jobs:
+  build-fedora-latest:
+    name: fedora-latest
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Rust
+        run: |
+          dnf install -y \
+            curl \
+            gcc
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          source $HOME/.cargo/env
+          echo $HOME
+      - name: Build and Test hello_world
+        run: |
+          source $HOME/.cargo/env
+          cd hello_world
+          cargo build --release
+          cargo test --release
+      - name: Build and Test actix
+        run: |
+          source $HOME/.cargo/env
+          cd actix
+          cargo build --release
+          cargo test --release
